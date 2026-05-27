@@ -1,9 +1,10 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ResidentPortrait } from '@/components/data'
 
-export default function PortraitPage() {
+function PortraitContent() {
   const searchParams = useSearchParams()
   const userId = searchParams.get('userId') ?? ''
 
@@ -16,4 +17,16 @@ export default function PortraitPage() {
   }
 
   return <ResidentPortrait userId={userId} />
+}
+
+export default function PortraitPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+      </div>
+    }>
+      <PortraitContent />
+    </Suspense>
+  )
 }
